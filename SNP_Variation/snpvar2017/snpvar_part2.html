@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="avenir-white.css" type="text/css" />
+</head>
+<body>
+<h1 id="human-population-genomic-variation">Human Population Genomic Variation</h1>
+<h2 id="variants-snps-in-lct-gene-part-2">Variants (SNPs) in <em>LCT</em> Gene: Part 2</h2>
+<h3 id="molb-44855485----computers-in-biology">Molb 4485/5485 -- Computers in Biology</h3>
+<h3 id="vikram-chhatre-and-nicolas-blouin">Vikram Chhatre and Nicolas Blouin</h3>
+<p>Wyoming INBRE Bioinformatics Core<br />
+Dept. of Molecular Biology<br />
+University of Wyoming</p>
+<a href="mailto:vchhatre@uwyo.edu">vchhatre@uwyo.edu</a><br />
+<a href="mailto:nblouin@uwyo.edu">nblouin@uwyo.edu</a><br />
+<a href="http://molb4485.uwyo.online" class="uri">http://molb4485.uwyo.online</a><br />
+
+<hr>
+<p><img src="hg.jpg" width=800></a> Hunting and Gathering to Pastoralism. Image Credit: <a href="http://dburr.blogspot.com">Dan Burr</a></p>
+<h3 style="color: red;">
+Important:
+</h3>
+<p><strong>1. Do not race ahead in the tutorial.</strong></p>
+<p><strong>2. Doing so compromises your learning experience.</strong></p>
+<p><strong>3. You may not leave early today!</strong> <br><br><br></p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol start="4" style="list-style-type: decimal">
+<li><a href="#r">The R Programming Language</a></li>
+<li><a href="#maps">Plotting Data on Geographical Maps</a></li>
+<li><a href="#save">Save Your Work</a></li>
+</ol>
+<p><br><br><br><br><br></p>
+<p><a name="r"></a></p>
+<h2 id="the-r-programming-language">4. The <code>R</code> Programming Language</h2>
+<p><a href="http://www.r-project.org">R</a> has become the <em>de-facto</em> standard in the scientific community for statistical data analysis and visualization. It is a completely open source language. R comes with a basic framework of functions and utilities commonly used for these two purposes. For anything specialized, you will need to load additional packages into the memory. This is very similar to the module loading system on MtMoran that you have been interacting with lately.</p>
+<h3 id="launch-an-r-session">4.1 Launch an <code>R</code> Session</h3>
+<p>R can run both within the terminal shell or as a standalone GUI application (e.g. R-Studio). For today's exercise, we will run R in the <code>Terminal.app</code>. Launch a new R session as follows:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">
+$ <span class="ex">r</span>
+</code></pre></div>
+<p>Note that your version may be different.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+R version <span class="fl">3.3</span>.<span class="dv">1</span> (<span class="dv">2016</span><span class="op">-</span><span class="dv">06</span><span class="op">-</span><span class="dv">21</span>) <span class="op">--</span><span class="st"> &quot;Bug in Your Hair&quot;</span>
+<span class="kw">Copyright</span> (C) <span class="dv">2016</span> The R Foundation <span class="cf">for</span> Statistical Computing
+Platform<span class="op">:</span><span class="st"> </span>x86_<span class="dv">64</span><span class="op">-</span>apple<span class="op">-</span><span class="kw">darwin13.4.0</span> (<span class="dv">64</span><span class="op">-</span>bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type <span class="st">&#39;license()&#39;</span> or <span class="st">&#39;licence()&#39;</span> <span class="cf">for</span> distribution details.
+
+  Natural language support but running <span class="cf">in</span> an English locale
+
+R is a collaborative project with many contributors.
+Type <span class="st">&#39;contributors()&#39;</span> <span class="cf">for</span> more information and
+<span class="st">&#39;citation()&#39;</span> on how to cite R or R packages <span class="cf">in</span> publications.
+
+Type <span class="st">&#39;demo()&#39;</span> <span class="cf">for</span> some demos, <span class="st">&#39;help()&#39;</span> <span class="cf">for</span> on<span class="op">-</span>line help, or
+<span class="st">&#39;help.start()&#39;</span> <span class="cf">for</span> an HTML browser interface to help.
+Type <span class="st">&#39;q()&#39;</span> to quit R.
+
+<span class="op">&gt;</span></code></pre></div>
+<p>Notice that the R prompt is <code>&gt;</code> as opposed to Linux where the prompt is <code>$</code>.</p>
+<h3 id="import-data-into-r">4.2 Import Data into <code>R</code></h3>
+<p>R has specific functions for reading text files as data frames. It can import a variety of text files (comma or tab separated). We will now import the gene frequency data that we created earlier (<code>freq.df</code>). Note that our data is in tab delimited format.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">getwd</span>()
+
+[<span class="dv">1</span>] <span class="st">&quot;/Users/vikram/LASTNAME_Week5&quot;</span>
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">options</span>(<span class="dt">width=</span><span class="dv">150</span>)
+
+<span class="op">&gt;</span><span class="st"> </span>freq &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&#39;freq.df&#39;</span>, <span class="dt">header=</span>T)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">head</span>(freq)
+
+  pop  dist superpop     lat      long                  popname CHROM       POS N_ALLELES N_CHR Allele_A  Allele_T
+<span class="dv">1</span> ACB <span class="fl">13.19</span>      AFR <span class="fl">13.1776</span>  <span class="op">-</span><span class="fl">59.5412</span>       African_Carib_BBDS     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">192</span> <span class="fl">0.687500</span> <span class="fl">0.3125000</span>
+<span class="dv">2</span> ASW <span class="op">-</span><span class="fl">8.78</span>      AFR <span class="fl">36.1070</span> <span class="op">-</span><span class="fl">112.1130</span>  African_Ancestry_SW_USA     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">122</span> <span class="fl">0.688525</span> <span class="fl">0.3114750</span>
+<span class="dv">3</span> BEB <span class="fl">23.68</span>      SAS <span class="fl">23.6850</span>   <span class="fl">90.3563</span>    Bengali_in_Bangladesh     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">172</span> <span class="fl">0.639535</span> <span class="fl">0.3604650</span>
+<span class="dv">4</span> CDX <span class="fl">22.01</span>      EAS <span class="fl">22.0088</span> <span class="op">-</span><span class="fl">100.7971</span>              Chinese_Dai     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">186</span> <span class="fl">0.580645</span> <span class="fl">0.4193550</span>
+<span class="dv">5</span> CEU <span class="fl">62.28</span>      EUR <span class="fl">39.3210</span> <span class="op">-</span><span class="fl">111.0937</span> Utah_Resid_from_NWEurope     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">198</span> <span class="fl">0.914141</span> <span class="fl">0.0858586</span>
+<span class="dv">6</span> CHB <span class="fl">23.13</span>      EAS <span class="fl">39.9042</span>  <span class="fl">116.4074</span>              Han_Chinese     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">206</span> <span class="fl">0.762136</span> <span class="fl">0.2378640</span>
+
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">tail</span>(freq)
+
+  pop  dist superpop     lat     long               popname CHROM       POS N_ALLELES N_CHR Allele_A Allele_T
+<span class="dv">21</span> PEL <span class="op">-</span><span class="fl">9.19</span>      AMR <span class="op">-</span><span class="fl">9.1900</span> <span class="op">-</span><span class="fl">75.0152</span>              Peruvian     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">170</span> <span class="fl">0.641176</span> <span class="fl">0.358824</span>
+<span class="dv">22</span> PJL <span class="fl">31.55</span>      SAS <span class="fl">31.5546</span>  <span class="fl">74.3572</span>        Punjabi_Lahore     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">192</span> <span class="fl">0.708333</span> <span class="fl">0.291667</span>
+<span class="dv">23</span> PUR <span class="fl">18.22</span>      AMR <span class="fl">18.2208</span> <span class="op">-</span><span class="fl">66.5901</span>          Puerto_Rican     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">208</span> <span class="fl">0.730769</span> <span class="fl">0.269231</span>
+<span class="dv">24</span> STU  <span class="fl">7.87</span>      SAS  <span class="fl">7.8731</span>  <span class="fl">80.7718</span>      Sri_Lankan_Tamil     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">204</span> <span class="fl">0.627451</span> <span class="fl">0.372549</span>
+<span class="dv">25</span> TSI <span class="fl">43.77</span>      EUR <span class="fl">43.7711</span>  <span class="fl">11.2486</span>         Toscani_Italy     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">214</span> <span class="fl">0.747664</span> <span class="fl">0.252336</span>
+<span class="dv">26</span> YRI <span class="fl">10.16</span>      AFR  <span class="fl">7.3775</span>   <span class="fl">3.9470</span> Yoruba_Ibadan_Nigeria     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">216</span> <span class="fl">0.689815</span> <span class="fl">0.310185</span></code></pre></div>
+<p>Notice that R formats the data so that's all columns are properly spaced making it easy to read. First checked our current location in the directory tree. Then we set the display width to 150 characters. Finally we imported our data and stored it into the variable freq. Now try the following functions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">names</span>(freq)
+ [<span class="dv">1</span>] <span class="st">&quot;pop&quot;</span>       <span class="st">&quot;dist&quot;</span>      <span class="st">&quot;superpop&quot;</span>  <span class="st">&quot;lat&quot;</span>       <span class="st">&quot;long&quot;</span>      <span class="st">&quot;popname&quot;</span>   <span class="st">&quot;CHROM&quot;</span>     <span class="st">&quot;POS&quot;</span>       <span class="st">&quot;N_ALLELES&quot;</span> <span class="st">&quot;N_CHR&quot;</span>     <span class="st">&quot;Allele_A&quot;</span>  <span class="st">&quot;Allele_T&quot;</span> 
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">dim</span>(freq)
+[<span class="dv">1</span>] <span class="dv">26</span> <span class="dv">12</span>
+</code></pre></div>
+<p>The above two commands tell you the names of columns and the dimensions of the data frame. Do the dimensions match your expectations? This can be a sanity check for the files you read in. If something is off, you will be able to notice it here.</p>
+<h3 id="accessing-rows-and-columnss">4.3 Accessing Rows and Columnss</h3>
+<p>R keeps track of the order of each row and column in data frame by assigning them serial numbers. Thus you can access specific rows and columns of the data frames very quickly and easily. See the following example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span>freq[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,]
+
+  pop  dist superpop     lat      long                  popname CHROM       POS N_ALLELES N_CHR Allele_A  Allele_T
+<span class="dv">1</span> ACB <span class="fl">13.19</span>      AFR <span class="fl">13.1776</span>  <span class="op">-</span><span class="fl">59.5412</span>       African_Carib_BBDS     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">192</span> <span class="fl">0.687500</span> <span class="fl">0.3125000</span>
+<span class="dv">2</span> ASW <span class="op">-</span><span class="fl">8.78</span>      AFR <span class="fl">36.1070</span> <span class="op">-</span><span class="fl">112.1130</span>  African_Ancestry_SW_USA     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">122</span> <span class="fl">0.688525</span> <span class="fl">0.3114750</span>
+<span class="dv">3</span> BEB <span class="fl">23.68</span>      SAS <span class="fl">23.6850</span>   <span class="fl">90.3563</span>    Bengali_in_Bangladesh     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">172</span> <span class="fl">0.639535</span> <span class="fl">0.3604650</span>
+<span class="dv">4</span> CDX <span class="fl">22.01</span>      EAS <span class="fl">22.0088</span> <span class="op">-</span><span class="fl">100.7971</span>              Chinese_Dai     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">186</span> <span class="fl">0.580645</span> <span class="fl">0.4193550</span>
+<span class="dv">5</span> CEU <span class="fl">62.28</span>      EUR <span class="fl">39.3210</span> <span class="op">-</span><span class="fl">111.0937</span> Utah_Resid_from_NWEurope     <span class="dv">2</span> <span class="dv">135805941</span>         <span class="dv">2</span>   <span class="dv">198</span> <span class="fl">0.914141</span> <span class="fl">0.0858586</span>
+</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span>freq[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]
+
+   pop  dist superpop     lat      long
+<span class="dv">1</span>  ACB <span class="fl">13.19</span>      AFR <span class="fl">13.1776</span>  <span class="op">-</span><span class="fl">59.5412</span>
+<span class="dv">2</span>  ASW <span class="op">-</span><span class="fl">8.78</span>      AFR <span class="fl">36.1070</span> <span class="op">-</span><span class="fl">112.1130</span>
+<span class="dv">3</span>  BEB <span class="fl">23.68</span>      SAS <span class="fl">23.6850</span>   <span class="fl">90.3563</span>
+<span class="dv">4</span>  CDX <span class="fl">22.01</span>      EAS <span class="fl">22.0088</span> <span class="op">-</span><span class="fl">100.7971</span>
+<span class="dv">5</span>  CEU <span class="fl">62.28</span>      EUR <span class="fl">39.3210</span> <span class="op">-</span><span class="fl">111.0937</span>
+<span class="dv">6</span>  CHB <span class="fl">23.13</span>      EAS <span class="fl">39.9042</span>  <span class="fl">116.4074</span>
+<span class="dv">7</span>  CHS <span class="fl">24.48</span>      EAS <span class="fl">23.9790</span>  <span class="fl">113.7633</span>
+</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span>freq[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]
+
+  pop  dist superpop     lat      long
+<span class="dv">1</span> ACB <span class="fl">13.19</span>      AFR <span class="fl">13.1776</span>  <span class="op">-</span><span class="fl">59.5412</span>
+<span class="dv">2</span> ASW <span class="op">-</span><span class="fl">8.78</span>      AFR <span class="fl">36.1070</span> <span class="op">-</span><span class="fl">112.1130</span>
+<span class="dv">3</span> BEB <span class="fl">23.68</span>      SAS <span class="fl">23.6850</span>   <span class="fl">90.3563</span>
+<span class="dv">4</span> CDX <span class="fl">22.01</span>      EAS <span class="fl">22.0088</span> <span class="op">-</span><span class="fl">100.7971</span>
+<span class="dv">5</span> CEU <span class="fl">62.28</span>      EUR <span class="fl">39.3210</span> <span class="op">-</span><span class="fl">111.0937</span>
+</code></pre></div>
+<p>As these examples show, you can access specific columns and rows in a data frame. In the first example, we asked R to print rows 1 through 5 to the screen. We indicated rows by printing a comma at the end of our argument. Likewise, columns can be specified by prefixing a comma to the argument. In the last example, we limited the output to the first 5 rows and 5 columns by providing both arguments separated by a comma. <strong>Try out more examples on your own</strong>.</p>
+<h3 id="getting-summary-statistics">4.4 Getting Summary Statistics</h3>
+<p>Suppose you want to calculate basic summary statistics on columns with numerical data. In our data frame, we have three numerical columns: (1) Population location latitudes, (2) Frequency of Allele A and (3) Frequency of Allele T. Let's work on these columns. While doing so, let's learn another way to access columns in R, by using their names.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">range</span>(freq<span class="op">$</span>lat)
+
+[<span class="dv">1</span>] <span class="op">-</span><span class="fl">9.1900</span> <span class="fl">61.9241</span>
+
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">summary</span>(freq<span class="op">$</span>Allele_A)
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ <span class="fl">0.5806</span>  <span class="fl">0.6450</span>  <span class="fl">0.6923</span>  <span class="fl">0.7190</span>  <span class="fl">0.7585</span>  <span class="fl">0.9192</span> 
+
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">summary</span>(freq<span class="op">$</span>N_CHR)
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  <span class="fl">122.0</span>   <span class="fl">186.5</span>   <span class="fl">198.0</span>   <span class="fl">192.6</span>   <span class="fl">207.5</span>   <span class="fl">226.0</span> 
+</code></pre></div>
+<p>We tested two R functions above. First function range shows the upper and lower limits of the data. In other words, it reports the minimum and maximum values. Thus, by looking at the output you can tell that our data comes from human populations that range 70 degrees in latitudinal distribution.</p>
+<p>Second function, <code>summary()</code> shows basic statistics for the data - in this case, frequency of allele A. It shows mean, median, and the quantile distribution of the values. Notice that frequency of the allele varies a lot. It goes from 0.58 all the way to 0.92.</p>
+<p>As you can see these simple functions are quite handy to get some basic information about data set of any size.</p>
+<h3 id="histograms">4.5 Histograms</h3>
+<p>There is another method in R to quickly gain understanding of how your data is distributed.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">hist</span>(freq<span class="op">$</span>Allele_A)
+</code></pre></div>
+<p><img src="histogram.png" width=600></img></p>
+<p>By default, R breaks into your data into appropriate number of bins. You can change this default behavior by specifying the number of bins. Notice how the Y-axis limits change when you do that.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">hist</span>(freq<span class="op">$</span>Allele_A, <span class="dt">breaks=</span><span class="dv">20</span>)
+</code></pre></div>
+<p><img src="histogram2.png" width=600></img></p>
+<h3 id="scatterplots">4.6 Scatterplots</h3>
+<p>When you want to compare the relationships of two variables with each other, a scatterplot comes handy. How would you make a scatterplot in R? Below are a series of R commands each building up the plot we desire, bit by bit. Type each command in increments and observe the resulting plot before typing the next command.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw">plot</span>(freq<span class="op">$</span>Allele_A, freq<span class="op">$</span>lat)
+</code></pre></div>
+<p><img src="scatterplot1.png" width=600></img></p>
+<p>You can modify the default behavior of the R graphics by specifying more options. Try the examples below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">plot</span>(freq<span class="op">$</span>Allele_A, freq<span class="op">$</span>lat, <span class="dt">xlab=</span><span class="st">&quot;f(A) rs34100645&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Latitude&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>)
+</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">plot</span>(freq<span class="op">$</span>Allele_A, freq<span class="op">$</span>lat, <span class="dt">xlab=</span><span class="st">&quot;f(A) rs34100645&quot;</span>, 
+        <span class="dt">ylab=</span><span class="st">&quot;Latitude&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.8</span>, 
+        <span class="dt">col=</span>freq<span class="op">$</span>popname, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</code></pre></div>
+<p>Much better aeshetics? Note that the points are all clumped together because we increased the default x-axis range to be 0 through 1. But really our data only spans about 0.55 to 0.92. So let's change that around.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">plot</span>(freq<span class="op">$</span>Allele_A, freq<span class="op">$</span>lat, <span class="dt">xlab=</span><span class="st">&quot;f(A) rs34100645&quot;</span>, 
+        <span class="dt">ylab=</span><span class="st">&quot;Latitude&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.8</span>, 
+        <span class="dt">col=</span>freq<span class="op">$</span>popname, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="fl">0.55</span>,<span class="fl">0.95</span>))</code></pre></div>
+<p><img src="scatterplot2.png" width=600></img></p>
+<p>Assigning a different color to each of the 26 populations makes things messy. There is no real pattern obvious here. But what happens if you instead assign colors by super population? Recall that the regional subpopulations are grouped into 5 global superpopulations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">plot</span>(freq<span class="op">$</span>Allele_A, freq<span class="op">$</span>lat, <span class="dt">xlab=</span><span class="st">&quot;f(A) rs34100645&quot;</span>, 
+        <span class="dt">ylab=</span><span class="st">&quot;Latitude&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.8</span>, 
+        <span class="dt">col=</span>freq<span class="op">$</span>superpop, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="fl">0.55</span>,<span class="fl">0.95</span>))</code></pre></div>
+<p><img src="scatterplot3.png" width=600></img></p>
+<p>This looks a lot better. Now some pattern is evident in the change of allele frequency across super populations. But we still do not know which color goes with what population, though you can probably figure the continent out by looking at the latitude. One way to make this connection is to write a legend within the plot itself. This is easy to do in R. We will also add a main title for the plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">plot</span>(freq<span class="op">$</span>Allele_A, freq<span class="op">$</span>lat, <span class="dt">xlab=</span><span class="st">&quot;f(A) rs34100645&quot;</span>, 
+        <span class="dt">ylab=</span><span class="st">&quot;Latitude&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.8</span>, 
+        <span class="dt">col=</span>freq<span class="op">$</span>superpop, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="fl">0.55</span>,<span class="fl">0.95</span>))
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">legend</span>(<span class="st">&#39;topleft&#39;</span>, <span class="kw">c</span>(<span class="st">&#39;African&#39;</span>, <span class="st">&#39;Admixed American&#39;</span>, <span class="st">&#39;East Asia&#39;</span>, <span class="st">&#39;European&#39;</span>,
+            <span class="st">&#39;South Asian&#39;</span>), <span class="dt">cex=</span><span class="fl">0.8</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">inset=</span><span class="fl">0.02</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">title</span>(<span class="dt">main=</span><span class="st">&quot;Latitudinal Variation in f(A) at rs34100645 </span>
+<span class="st">        among 26 Human Populations&quot;</span>, <span class="dt">cex.main=</span><span class="dv">1</span>)
+</code></pre></div>
+<p><img src="scatterplot4.png" width=600></img></p>
+<p>It is much clear based on this plot that the frequency of allele A increases going from southern to northern latitudes. It makes us wonder what relationship might exist between the longitudinal positions of populations and the frequency of this allele. But how would you reconcile both geographical coordinates and the frequency data together in one plot? Plotting directly on maps will allow you to do that.</p>
+<p><a name="maps"></a></p>
+<h2 id="plotting-data-on-geographical-maps">5. Plotting Data on Geographical Maps</h2>
+<p>Before we can begin, we will need access to the following libraries. Try to load all of these <em>one by one</em>. Chances are some of them are not available on your workstation; in which case you will need to install them.</p>
+<h3 id="loadinstall-packages">5.1 Load/Install Packages</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(maps)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(mapdata)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(scales)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(mapplots)
+
+Error <span class="cf">in</span> <span class="kw">library</span>(mapplots) <span class="op">:</span><span class="st"> </span>there is no package called ‘mapplots’
+
+
+<span class="kw">install.packages</span>(<span class="st">&#39;maps&#39;</span>)
+<span class="kw">install.packages</span>(<span class="st">&#39;mapdata&#39;</span>)
+<span class="kw">install.packages</span>(<span class="st">&#39;scales&#39;</span>)
+<span class="kw">install.packages</span>(<span class="st">&#39;mapplots&#39;</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(mapplots)</code></pre></div>
+<h3 id="draw-world-map-layer">5.2 Draw World Map Layer</h3>
+<p>Below, you will be typing the same commands over and over again. It's best to start a script and write things in there. Open a new tab in your terminal using <code>Cmd</code>+<code>t</code>. Note that the new terminal tab starts with a linux prompt, not R prompt. Do not be confused between the two.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">
+$ <span class="fu">touch</span> plots.R
+</code></pre></div>
+<p>Then open the file in GUI version of the vim text editor.</p>
+<p><img src="vim.png" width=400> </img></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">map</span>(<span class="st">&#39;worldHires&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">120</span>,<span class="dv">142</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">12</span>,<span class="dv">72</span>), <span class="dt">col=</span><span class="st">&#39;gray&#39;</span>, <span class="dt">fill=</span><span class="ot">FALSE</span>)
+</code></pre></div>
+<p><img src="WorldBlank.png" width=800> </img></p>
+<h4 id="plot-human-populations">5.3 Plot Human Populations</h4>
+<p>We will plot the 26 human populations on this map using the geographical coordinates available to us.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">map</span>(<span class="st">&#39;worldHires&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">120</span>,<span class="dv">142</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">12</span>,<span class="dv">72</span>), <span class="dt">col=</span><span class="st">&#39;gray&#39;</span>, <span class="dt">fill=</span><span class="ot">FALSE</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">points</span>(freq<span class="op">$</span>long, freq<span class="op">$</span>lat, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">col=</span><span class="st">&quot;salmon&quot;</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">box</span>()
+</code></pre></div>
+<p><img src="WorldPoints1.png" width=800></img></p>
+<h4 id="adjust-point-size">5.4 Adjust Point Size</h4>
+<p>We could make this plot more informative if we linked the point size to allele frequency.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">map</span>(<span class="st">&#39;worldHires&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">120</span>,<span class="dv">142</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">12</span>,<span class="dv">72</span>), <span class="dt">col=</span><span class="st">&#39;gray&#39;</span>, <span class="dt">fill=</span><span class="ot">FALSE</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">points</span>(freq<span class="op">$</span>long, freq<span class="op">$</span>lat, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span>freq<span class="op">$</span>Allele_A<span class="op">*</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="st">&quot;salmon&quot;</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">box</span>()
+</code></pre></div>
+<p><img src="WorldPoints2.png" width=800></img></p>
+<h4 id="using-pie-charts-to-display-relative-allele-frequencies">5.5 Using Pie Charts to Display Relative Allele Frequencies</h4>
+<p>This would perhaps be the best way to depict our data on the map, because it will show relative frequencies of both alleles at every given geographical position (i.e. population).</p>
+<p>First, let's just draw one pie to see how it works. We can then apply the same principal to the remaining points on the map.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">map</span>(<span class="st">&#39;worldHires&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">120</span>,<span class="dv">142</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">12</span>,<span class="dv">72</span>), <span class="dt">col=</span><span class="st">&#39;gray&#39;</span>, <span class="dt">fill=</span><span class="ot">FALSE</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">add.pie</span>(<span class="dt">z=</span><span class="kw">c</span>(<span class="fl">0.68</span>, <span class="fl">0.32</span>), <span class="dt">x=</span><span class="op">-</span><span class="fl">59.5412</span>, <span class="dt">y=</span><span class="fl">13.1776</span>, <span class="dt">radius=</span><span class="dv">192</span><span class="op">/</span><span class="dv">100</span>, 
+            <span class="dt">col=</span><span class="kw">c</span>(<span class="kw">alpha</span>(<span class="st">&quot;orange&quot;</span>, <span class="fl">0.6</span>), <span class="kw">alpha</span>(<span class="st">&quot;blue&quot;</span>, <span class="fl">0.6</span>)), <span class="dt">labels=</span><span class="st">&quot;&quot;</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">box</span>()
+</code></pre></div>
+<p>As you can see below, we just plotted the allele frequency data for the Barbados African population using a pie chart. The orange and blue colors are representative of the frequencies of alleles A and T respectively.</p>
+<p><img src="WorldPie1.png" width=800></img></p>
+<h4 id="plot-all-pie-charts-using-for-loop">5.6 Plot All Pie Charts Using <code>for{}</code> Loop</h4>
+<p>In order to plot one pie chart per population of data, what we need to do essentially is to cycle through the code above for each row of our data frame <code>freq.df</code>. If you need a refresher in what was contained in that data frame, run a head on it quickly:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">
+<span class="op">&gt;</span> <span class="fu">head</span>(freq)
+
+  <span class="ex">pop</span>  dist superpop     lat      long                  popname CHROM       POS N_ALLELES N_CHR Allele_A  Allele_T
+<span class="ex">1</span> ACB 13.19      AFR 13.1776  -59.5412       African_Carib_BBDS     2 135805941         2   192 0.687500 0.3125000
+<span class="ex">2</span> ASW -8.78      AFR 36.1070 -112.1130  African_Ancestry_SW_USA     2 135805941         2   122 0.688525 0.3114750
+<span class="ex">3</span> BEB 23.68      SAS 23.6850   90.3563    Bengali_in_Bangladesh     2 135805941         2   172 0.639535 0.3604650
+<span class="ex">4</span> CDX 22.01      EAS 22.0088 -100.7971              Chinese_Dai     2 135805941         2   186 0.580645 0.4193550
+<span class="ex">5</span> CEU 62.28      EUR 39.3210 -111.0937 Utah_Resid_from_NWEurope     2 135805941         2   198 0.914141 0.0858586
+<span class="ex">6</span> CHB 23.13      EAS 39.9042  116.4074              Han_Chinese     2 135805941         2   206 0.762136 0.2378640</code></pre></div>
+<p><code>for{}</code> loops in R are notoriously slow for large data sets, but we have just got 26 iterations of the loop, so we do not need to worry about computational speed. Loops in R are similar to those in bash or any other language and they take the following general form:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>){
+  do something
+}</code></pre></div>
+<p>This means run <code>something</code> command 100 times. How can we apply this to our data?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">map</span>(<span class="st">&#39;worldHires&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">120</span>,<span class="dv">142</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">12</span>,<span class="dv">72</span>), <span class="dt">col=</span><span class="st">&#39;gray&#39;</span>, <span class="dt">fill=</span><span class="ot">FALSE</span>)
+
+
+<span class="op">&gt;</span><span class="st"> </span><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">26</span>){
+  <span class="kw">add.pie</span>(<span class="dt">z=</span><span class="kw">c</span>(freq<span class="op">$</span>Allele_A[i], freq<span class="op">$</span>Allele_T[i]), <span class="dt">x=</span>freq<span class="op">$</span>long[i], <span class="dt">y=</span>freq<span class="op">$</span>lat[i], 
+        <span class="dt">radius=</span>freq<span class="op">$</span>N_CHR[i]<span class="op">/</span><span class="dv">100</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="kw">alpha</span>(<span class="st">&quot;orange&quot;</span>, <span class="fl">0.6</span>), <span class="kw">alpha</span>(<span class="st">&quot;blue&quot;</span>, <span class="fl">0.6</span>)), <span class="dt">labels=</span><span class="st">&quot;&quot;</span>)
+  i=i<span class="op">+</span><span class="dv">1</span>
+}
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">box</span>()
+
+</code></pre></div>
+<p><img src="WorldPie2.png" width=800></img></p>
+<p>There are several important bits of information depicted in this plot.</p>
+<ol style="list-style-type: decimal">
+<li>Geographical positions of populations</li>
+<li>Size of the population under study (Pie circle size)</li>
+<li>The relative frequencies of the two alleles</li>
+</ol>
+<p>All we need to do now is to add a legend and then the plot is ready.</p>
+<h4 id="add-legend-and-label-populations">5.7 Add Legend and Label Populations</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">map</span>(<span class="st">&#39;worldHires&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">120</span>,<span class="dv">142</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">12</span>,<span class="dv">72</span>), <span class="dt">col=</span><span class="st">&#39;gray&#39;</span>, <span class="dt">fill=</span><span class="ot">FALSE</span>)
+
+
+<span class="op">&gt;</span><span class="st"> </span><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">26</span>){
+  <span class="kw">add.pie</span>(<span class="dt">z=</span><span class="kw">c</span>(freq<span class="op">$</span>Allele_A[i], freq<span class="op">$</span>Allele_T[i]), <span class="dt">x=</span>freq<span class="op">$</span>long[i], <span class="dt">y=</span>freq<span class="op">$</span>lat[i], 
+        <span class="dt">radius=</span>freq<span class="op">$</span>N_CHR[i]<span class="op">/</span><span class="dv">100</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="kw">alpha</span>(<span class="st">&quot;orange&quot;</span>, <span class="fl">0.6</span>), <span class="kw">alpha</span>(<span class="st">&quot;blue&quot;</span>, <span class="fl">0.6</span>)), <span class="dt">labels=</span><span class="st">&quot;&quot;</span>)
+  i=i<span class="op">+</span><span class="dv">1</span>
+}
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">text</span>(freq<span class="op">$</span>long, freq<span class="op">$</span>lat, <span class="dt">labels=</span>freq<span class="op">$</span>superpop, <span class="dt">cex=</span><span class="fl">0.5</span>, <span class="dt">pos=</span><span class="dv">1</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">box</span>()
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">bty=</span><span class="st">&#39;1&#39;</span>, <span class="kw">c</span>(<span class="st">&quot;Freq. Allele A&quot;</span>, <span class="st">&quot;Freq. Allele T&quot;</span>), 
+        <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="kw">alpha</span>(<span class="st">&quot;orange&quot;</span>, <span class="fl">0.6</span>), <span class="kw">alpha</span>(<span class="st">&quot;blue&quot;</span>, <span class="fl">0.6</span>)), <span class="dt">pt.cex=</span><span class="dv">1</span>, <span class="dt">cex=</span><span class="fl">0.7</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">title</span>(<span class="dt">main=</span><span class="st">&quot;Global Distribution of rs34100645 Alleles&quot;</span>, <span class="dt">font.main=</span><span class="dv">1</span>, <span class="dt">cex.main=</span><span class="fl">0.9</span>)
+</code></pre></div>
+<p><img src="WorldPie_Final.png" width=800></img></p>
+<h4 id="save-the-map-plot">5.8 Save the Map Plot</h4>
+<p>Below are the contents of your script <code>plots.R</code>. Do not include the <code>&gt;</code> prompts in the script. Once you are done writing the entire script. You can run it without copy pasting (see below).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw">pdf</span>(<span class="st">&#39;WorldPie_Final2.pdf&#39;</span>, <span class="dt">width=</span><span class="dv">10</span>, <span class="dt">height=</span><span class="dv">7</span>)
+
+<span class="kw">map</span>(<span class="st">&#39;worldHires&#39;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">120</span>,<span class="dv">142</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">12</span>,<span class="dv">72</span>), <span class="dt">col=</span><span class="st">&#39;gray&#39;</span>, <span class="dt">fill=</span><span class="ot">FALSE</span>)
+
+
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">26</span>){
+  <span class="kw">add.pie</span>(<span class="dt">z=</span><span class="kw">c</span>(freq<span class="op">$</span>Allele_A[i], freq<span class="op">$</span>Allele_T[i]), <span class="dt">x=</span>freq<span class="op">$</span>long[i], <span class="dt">y=</span>freq<span class="op">$</span>lat[i], 
+        <span class="dt">radius=</span>freq<span class="op">$</span>N_CHR[i]<span class="op">/</span><span class="dv">100</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="kw">alpha</span>(<span class="st">&quot;orange&quot;</span>, <span class="fl">0.6</span>), <span class="kw">alpha</span>(<span class="st">&quot;blue&quot;</span>, <span class="fl">0.6</span>)), <span class="dt">labels=</span><span class="st">&quot;&quot;</span>)
+  i=i<span class="op">+</span><span class="dv">1</span>
+}
+
+<span class="kw">text</span>(freq<span class="op">$</span>long, freq<span class="op">$</span>lat, <span class="dt">labels=</span>freq<span class="op">$</span>superpop, <span class="dt">cex=</span><span class="fl">0.5</span>, <span class="dt">pos=</span><span class="dv">1</span>)
+
+<span class="kw">box</span>()
+
+<span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">bty=</span><span class="st">&#39;1&#39;</span>, <span class="kw">c</span>(<span class="st">&quot;Freq. Allele A&quot;</span>, <span class="st">&quot;Freq. Allele T&quot;</span>), <span class="dt">pch=</span><span class="dv">16</span>, 
+        <span class="dt">col=</span><span class="kw">c</span>(<span class="kw">alpha</span>(<span class="st">&quot;orange&quot;</span>, <span class="fl">0.6</span>), <span class="kw">alpha</span>(<span class="st">&quot;blue&quot;</span>, <span class="fl">0.6</span>)), <span class="dt">pt.cex=</span><span class="dv">1</span>, <span class="dt">cex=</span><span class="fl">0.7</span>)
+
+<span class="kw">title</span>(<span class="dt">main=</span><span class="st">&quot;Global Distribution of rs34100645 Alleles&quot;</span>, <span class="dt">font.main=</span><span class="dv">1</span>, <span class="dt">cex.main=</span><span class="fl">0.9</span>)
+
+<span class="kw">dev.off</span>()</code></pre></div>
+<p>Execute the script as follows. You don't have to close vim in order to run the script. Just make to sure to save all the changes.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">source</span>(<span class="st">&quot;plots.R&quot;</span>)</code></pre></div>
+<h4 id="closing-analysis">5.9 Closing Analysis</h4>
+<p>Based on this map, what inferences can you make about the distribution of Allele A at locus rs34100645 on Chromosome # 2 in human populations across the globe? This is one of the more than 1000 SNPs, including those within the <em>LCT</em> gene and a few upstream of the gene itself that are implicated in the ability to digest lactose sugar present in the milk.</p>
+<p>In pre-historic times, humans were primarily hunter gatherers and thus had no exposure to dairy milk or its many products. When the hunter gatherers started settling down and pastoral practices emerged, humans were first exposed to lactose in dairy milk. As it turns out, some populations have evolved the ability to regulate the <em>LCT</em> gene products in alternative ways in order to be able to digest the Lactose more efficiently whereas others did not.</p>
+<p>Our analysis shows only a partial picture of the entire Lactose Persistence ability in humans. There are many pieces to this puzzle, which has been recently solved. For an excellent review of what we know about <em>Lactose Persistence</em> in humans, see the following publication:</p>
+<p><a href="http://www.annualreviews.org/doi/abs/10.1146/annurev-genom-091416-035340">Ségurel, Laure, and Céline Bon. <em>On the Evolution of Lactase Persistence in Humans</em></a></p>
+<p><br><br></p>
+<p><a name="save"></a></p>
+<h2 id="saving-your-work">6. Saving Your Work</h2>
+<h3 id="on-local-workstation">6.1 On Local Workstation</h3>
+<ol style="list-style-type: decimal">
+<li>Save your RSession in an image. Make sure to replace LASTNAME with your own.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">setwd</span>(<span class="st">&quot;~/LASTNAME_Week5/&quot;</span>)
+
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">save.image</span>(<span class="st">&#39;LASTNAME_Week5.RData&#39;</span>)</code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Compress all files you generated today and copy them to the Week5 folder on MtMoran.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">
+$ <span class="bu">cd</span> ~/LASTNAME_Week5/
+
+$ <span class="fu">tar</span> -cvzf LASTNAME_Week5_Local.tar.gz *
+
+$ <span class="fu">scp</span> LASTNAME_Week5_Local.tar.gz [inbreNNN]@mtmoran.uwyo.edu:/project/inbre-train/[inbreNNN]/Week5/
+</code></pre></div>
+<h3 id="on-mtmoran">6.2 On MtMoran</h3>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">
+$ <span class="bu">cd</span> /project/inbre-train/[inbreNNN]/Week5/
+
+$ <span class="bu">history</span> <span class="op">&gt;</span> LASTNAME_Week5_History.sh
+</code></pre></div>
+</body>
+</html>

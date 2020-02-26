@@ -1,0 +1,825 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="avenir-white.css" type="text/css" />
+</head>
+<body>
+<h1 id="an-introduction-to-linux-commandline">An Introduction to Linux &amp; Commandline</h1>
+<h2 id="molb-44855485----computers-in-biology">Molb 4485/5485 -- Computers in Biology</h2>
+<h3 id="nicolas-blouin-and-vikram-chhatre">Nicolas Blouin and Vikram Chhatre</h3>
+Wyoming INBRE Bioinformatics Core<br />
+Dept. of Molecular Biology<br />
+University of Wyoming<br />
+<a href="mailto:nblouin@uwyo.edu">nblouin@uwyo.edu</a><br />
+<a href="mailto:vchhatre@uwyo.edu">vchhatre@uwyo.edu</a><br />
+<a href="http://www.uwyo.edu/ibc" class="uri">http://www.uwyo.edu/ibc</a><br />
+
+<hr>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol style="list-style-type: decimal">
+<li><a href="#terminal">The Terminal</a></li>
+<li><a href="#ssh">Connecting to Remote Server</a></li>
+<li><a href="#whereami">Where Am I?</a></li>
+<li><a href="#lindir">Linux Directory Structure</a></li>
+<li><a href="#cd">Changing Directories</a></li>
+<li><a href="#mkdir">Making Directories</a></li>
+<li><a href="#editing">Making &amp; Editing Files</a></li>
+<li><a href="#move">Moving Directories &amp; Files</a></li>
+<li><a href="#cp">Copying Directories</a></li>
+<li><a href="#viewing">Viewing Directory Contents</a></li>
+<li><a href="#rm">Removing Files and Directories</a></li>
+<li><a href="#displayfiles">Display File Contents</a></li>
+<li><a href="#permissions">File &amp; Folder Permissions</a></li>
+<li><a href="#scripting">Your First Shell Script</a></li>
+<li><a href="#powercommands">Unix Power Commands</a></li>
+<li><a href="#savework">Saving Your Work</a></li>
+</ol>
+<p><a name="terminal"></a></p>
+<h3 id="the-terminal">1. The Terminal</h3>
+<p>This is the common name for the application that gives you text-based access to the operating system of the computer. Basically, it allows you to type input into the computer so that you can receive output from the programs you call. On Unix based machines there is always a <code>terminal</code> program.</p>
+<p><img src="terminal.jpg" style="width: 600px; align: center;"/></p>
+<p><strong>Some brief tips before we move further:</strong></p>
+<ul>
+<li><p>You will need to frequently resize this window as we do the hands-on activities. This is done as with any other window.</p></li>
+<li><p>You can change the size of the text by holding <code>command + shift</code> and hitting <code>+</code> or <code>command</code> plus the <code>-</code> key.</p></li>
+<li><p>You can have multiple terminal windows open at the same time.</p></li>
+<li><p>You can also have multiple tabs open in each terminal window.</p></li>
+<li><p>Everything you type in the terminal is case sensitive. <code>grep -F</code> is not the same as <code>grep -f</code>. This will be a very important thing to remember when using the terminal and creating files or folders.</p></li>
+</ul>
+<p><a name="ssh"></a></p>
+<h3 id="connecting-to-remote-server">2. Connecting To Remote Server</h3>
+<p>Often with bioinformatics analysis, you will be performing tasks on a remote network server, one much more powerful than your workstation. Let's use the terminal program you just learned about to connect with this server. We will use Secure SHell (SSH) protocol to talk to the remote server. In the following example, replace <code>username</code> with the user name provided to you.</p>
+<p><strong>Two-Factor Authentication</strong></p>
+<p>To improve computer security, University of Wyoming has started requiring two-factor authentication to grant access to network servers. Two factor implies password plus a second type of authentication. You all have Yubikeys (a usb flash drive like device) for the token needed for this.</p>
+<ul>
+<li>Type the following in your terminal and hit <code>ENTER</code> key. This will bring up the password prompt.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">ssh</span> username@mtmoran.uwyo.edu</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">                         <span class="ex">TWO-FACTOR</span> AUTHENTICATION
+=============================================================================
+<span class="ex">This</span> system requires two-factor authentication.
+
+<span class="ex">The</span> password requirement is your UWYO domain password.
+
+<span class="ex">The</span> token can be generated by your registered YubiKey or manually input with
+<span class="ex">the</span> Duo mobile app. If you have questions about using this implementation of
+<span class="ex">two-factor</span> authentication, contact the ARCC team at arcc-info@uwyo.edu
+
+<span class="ex">Please</span> enter the two-factor password the in the form:
+
+                            <span class="op">&lt;</span><span class="ex">password</span><span class="op">&gt;</span>,<span class="op">&lt;</span>token<span class="op">&gt;</span>
+
+=============================================================================</code></pre></div>
+<ul>
+<li>As you type the password, you will not see the cursor move. This is normal. During the two-factor authentication, we will use the password in combination with a alpha-numeric 'push' using the Yubikey. Enter the two as follows, <strong>don't forget the comma</strong></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="ex">wyoinbre</span>,<span class="op">&lt;</span>Press YubiKey Gold Button<span class="op">&gt;</span></code></pre></div>
+<ul>
+<li>If the authentication was successful, the remote server will bring you to a linux prompt as follows. This prompt has several parts: username, servername and your current location on the filesystem. The location <code>~</code> is a shortcut for your home directory (<code>/home/username</code>) on the remote server.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    [<span class="ex">username@mmmlog1</span> ~]$</code></pre></div>
+<ul>
+<li>This application is going to be your friend when working with large data sets. Get used to making new windows (<code>control + shift + n</code>), new tabs (<code>control + shift + t</code>), and resizing this window.</li>
+</ul>
+<p><a name="whereami"></a></p>
+<h3 id="where-am-i-on-the-filesystem">3. Where Am I (on the filesystem)?</h3>
+<p>As you will learn everything in Linux is relative to where you are in the file system. Therefore, knowing where you are before launching a command is valuable information. Luckily, there are built in commands for this type of information. Understanding the location of files will be a key part of success.</p>
+<ul>
+<li><p>To find out where you are in the file system type <code>pwd</code> in the terminal window. This will return your current working directory (<strong>p</strong>rint <strong>w</strong>orking <strong>d</strong>irectory)</p></li>
+<li><p>As you can see above the working directory is: <code>/project/inbre-train/username</code></p></li>
+<li><p>The present directory is represented as <code>.</code> (dot) and the parent directory is represented as <code>..</code> (dot dot)</p></li>
+<li><p>Directories are separated by forward slashes <code>/</code>. Together they make up <code>path</code>. <code>/project/inbre-train/username/</code> is the path to your home directory.</p></li>
+</ul>
+<p><a name="lindir"></a></p>
+<h3 id="linux-directory-structure">4. Linux Directory Structure</h3>
+<p>Linux files are arranged in a hierarchical structure, or a directory tree. From the root directory (<code>/</code>) there are many subdirectories. Each subdirectory can contain files or other subdirectories, etc., etc. Whenever you're using the terminal you will always be 'in' a directory. The default behavior of opening a terminal window, or logging into a remote computer, will place you in your ‘home’ directory. This is true when we logged into MtMoran. The home directory contains files and directories that only you can modify, we will get to those permissions later.</p>
+<p><img src="linux-directory-tree.jpg" width=500px></p>
+<p>To see what files, or directories, you have in your home directory we will use the <code>ls</code> command.</p>
+<ul>
+<li><p>Type <code>ls</code> and hit enter</p></li>
+<li><p>You should see the list of files and directories in your current folder.</p></li>
+<li><p>After the <code>ls</code> command finishes it produces a new command prompt that is ready for your next command.</p></li>
+<li><p>The <code>ls</code> command can be used to list the contents of any directory not necessarily just the one you are currently in.</p></li>
+<li><p>Type <code>ls LearnLinux</code></p></li>
+</ul>
+<p><a name="cd"></a></p>
+<h3 id="changing-directories">5. Changing Directories</h3>
+<p>To move between directories (folders) we use the <code>cd</code> (change directory) command. We are currently in our home directory. Lets move to <code>/project/inbre-train/username/LearnLinux</code>. The <code>cd</code> command uses following syntax:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="bu">cd</span> DIRECTORY
+    $ <span class="bu">cd</span> /project/inbre-train/username/LearnLinux</code></pre></div>
+<ul>
+<li><p>Type <code>ls</code></p></li>
+<li><p>Type <code>pwd</code></p></li>
+<li><p>You can see that using the <code>cd</code> command moved us to a different directory.</p></li>
+<li><p>By typing <code>ls</code> we can see that there is different stuff in this directory.</p></li>
+<li><p>Finally, using <code>pwd</code> shows us what directory we are not located in.</p></li>
+<li><p>We could have done the previous example in separate steps</p></li>
+<li><p>Type <code>cd /project</code></p></li>
+<li><p>Type <code>cd inbre-train/username</code></p></li>
+<li><p>Type <code>cd LearnLinux</code></p></li>
+<li><p>Note that we needed to type <code>/project</code> but not <code>/username</code>. When using a <code>/Directory</code> you are specifying a directory that is <strong>directory below</strong> the root directory. Without the leading <code>/</code> the system looks below the current directory.</p></li>
+<li><p>Type <code>cd project</code></p></li>
+<li><p>Type cd <code>/project</code></p></li>
+<li><p>What happened with the first command?</p></li>
+<li><p>You will frequently need to move up a level to a parent directory. Remember that two dots <code>..</code> are used to represent the parent directory. Every directory has a parent except the root level.</p></li>
+<li><p>Type <code>cd ..</code></p></li>
+<li><p>Type <code>pwd</code></p></li>
+<li><p>You can move multiple levels at the same time</p></li>
+<li><p>Type <code>cd /project/inbre-train/username/LearnLinux</code></p></li>
+<li><p>Type <code>cd ../..</code></p></li>
+<li><p>Type <code>pwd</code></p></li>
+<li><p>When using <code>cd</code> everything is relative to your current location. However you can always use the absolute location to change directories. Lets move into the <code>Code</code> directory and look at two ways to switch to the <code>Data</code> directory.</p></li>
+<li><p>Type <code>cd /project/inbre-train/username/LearnLinux/Code</code></p></li>
+<li><p>Option 1: Type <code>cd ../Data</code></p></li>
+<li><p>Type <code>pwd</code></p></li>
+<li><p>Type <code>cd /project/inbre-train/username/LearnLinux/Code</code></p></li>
+<li><p>Option 2: Type <code>cd /project/inbre-train/username/LearnLinux/Data</code></p></li>
+<li><p>Type <code>pwd</code></p></li>
+<li><p>As you can see both options get us to the same place but Option 1 will only work from within a directory below Data. Option 2 will work from any location on the machine.</p></li>
+</ul>
+<p><a name="mkdir"></a></p>
+<h3 id="making-directories">6. Making Directories</h3>
+<p>Creating directories in Unix is done with the <code>mkdir</code> (make directory) command.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">mkdir</span> DirectoryName</code></pre></div>
+<p>Using spaces when naming directories, like on your desktop, is not advised in the Unix file system. This is why you see the use of <code>_</code> in place of spaces. You can escape a space in Unix but it creates unnecessary typing and can create issues executing certain programs. Generally, using spaces in file and directory names is something to avoid.</p>
+<ul>
+<li><p>Type <code>cd /project/inbre-train/username/LearnLinux</code></p></li>
+<li><p>Type <code>mkdir Work</code></p></li>
+<li><p>Type <code>ls</code></p></li>
+<li><p>Type <code>mkdir Temp1</code></p></li>
+<li><p>Type <code>cd Temp1</code></p></li>
+<li><p>Type <code>mkdir Temp2</code></p></li>
+<li><p>Type <code>cd Temp2</code></p></li>
+<li><p>Type <code>pwd</code></p></li>
+<li><p>In the previous example we created two temporary directories but it took two steps. We could have done this in one step with by adding an option/flag to the mkdir command.</p></li>
+<li><p>Type <code>cd ..</code></p></li>
+<li><p>Type <code>mkdir –p Temp1.1/Temp2.1</code></p></li>
+</ul>
+<p><a name="editing"></a></p>
+<h3 id="making-and-editing-files">7. Making and Editing Files</h3>
+<p>In this section you will learn the basics of making files and putting things into those files. There are a variety of ways we can accomplish this as Unix has built in multiple editors for these tasks. We will review a few here.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">touch</span> FILENAME</code></pre></div>
+<p>This will create a new, empty file.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">nano</span> FILENAME </code></pre></div>
+<p>This is a built in text editor that will allow us to put information into a file.</p>
+<ul>
+<li>Create two files in <code>LearnLinux/</code>
+<ul>
+<li><code>$ touch earth.txt</code></li>
+<li><code>$ touch heaven.txt</code></li>
+</ul></li>
+<li><p>Type <code>ls</code></p></li>
+<li><p>We have now created two empty files called <code>earth.txt</code> and <code>heaven.txt</code></p></li>
+<li><p>Type <code>cd Work</code></p></li>
+<li><p>Type <code>touch basic_info.txt</code></p></li>
+<li><p>Type <code>nano basic_info.txt</code></p></li>
+<li><p>We are now using an internal text editor that we can use to alter the contents of this file.</p></li>
+<li><p>Add your name, email address, and favorite food to this file on separate lines.</p></li>
+<li><p>Press <code>control + x (^x)</code> to exit and then <code>y</code> to save the file</p></li>
+<li>We can also create and edit files with nano
+<ul>
+<li><code>$ nano onestep.txt</code></li>
+<li>Add a line of text and save the file.</li>
+</ul></li>
+</ul>
+<p><a name="move"></a></p>
+<h3 id="moving-directories-and-files">8. Moving Directories and Files</h3>
+<p>To move a file or directory the <code>mv</code> (move) command is used. This is the first command we have used that requires two arguments. You need to specify the source and the destination for the moving.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">mv</span> SOURCE DESTINATION</code></pre></div>
+<ul>
+<li><p>Lets move <code>heaven.txt</code> and <code>earth.txt</code></p></li>
+<li><p><code>$ cd /project/inbre-train/username/LearnLinux</code></p></li>
+<li><p><code>$ mv heaven.txt Work/</code></p></li>
+<li><p><code>$ mv earth.txt Work/</code></p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p><code>$ ls Work/</code></p></li>
+<li><p>We could have moved these files all at once using wildcards. An asterisk <code>*</code> means match anything.</p></li>
+<li><p><code>$ mv *.txt Work/</code> #This will move any file that ends with .txt</p></li>
+<li><p><code>$ mv *t Work/</code> # This moves any file or directory that ends with a t</p></li>
+<li><p><code>$ mv *ea* Work/</code> #This works because only heaven and earth contain ‘ea’</p></li>
+<li><p><code>$ mv</code> can also be used to rename files</p></li>
+<li><p><code>$ touch rags</code></p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p><code>$ mv rags Work/riches</code></p></li>
+<li><p><code>$ ls Work/</code></p></li>
+<li><p>Here we move and renamed the file <code>rags</code> to <code>Work/riches</code></p></li>
+<li><p>We can rename it without moving the file</p></li>
+<li><p><code>$ mv Work/riches Work/rags</code></p></li>
+<li><p><code>$ ls Work/</code></p></li>
+<li><p>The <code>mv</code> command is also used to rename files or directories.</p></li>
+</ul>
+<p><a name="cp"></a></p>
+<h3 id="copying-directories">9. Copying Directories</h3>
+<p>To copy a file or directory <code>cp</code> (copy) command is used. Just like mv you will need a source and a destination to copy something.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">cp</span> SOURCE DESTINATION</code></pre></div>
+<ul>
+<li><p>Copying files is similar to moving them</p></li>
+<li><p><code>$ cd /project/inbre-train/username/LearnLinux/Work</code></p></li>
+<li><p><code>$ mkdir Copy</code></p></li>
+<li><p><code>$ cd Copy</code></p></li>
+<li><p><code>$ touch file1</code></p></li>
+<li><p><code>$ cp file1 file2</code></p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p>Remember we do not have to be in a directory to make, move, or copy files.</p></li>
+<li><p><code>$ touch /project/inbre-train/username/file3</code></p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p><code>$ cp /project/inbre-train/username/file3 .</code> # here we represent the current directory with a <code>.</code> (dot)</p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p>The <code>cp</code> command can also move directories using a flag</p></li>
+<li><p><code>$ mkdir Example</code></p></li>
+<li><p><code>$ mv file* Example/</code></p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p><code>$ cp –r Example/ Example2</code></p></li>
+<li><p><code>$ ls Example Example2/</code></p></li>
+<li><p>What happens if you do not use the <code>-r</code> flag?</p></li>
+<li><p><code>$ cp Example2/ Example3</code></p></li>
+<li><p>The error occurs because the <code>–r</code> flag means copy recursively. Since Example2 is not empty cp (without –r) does not descend into Example2 and copy those files it simply tries to move a directory without moving the things in the directory.</p></li>
+</ul>
+<p><a name="viewing"></a></p>
+<h3 id="viewing-directory-contents">10. Viewing Directory Contents</h3>
+<p>To view the contents of directories we use the <code>ls</code> (list segments) command.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">ls</span> DIRECTORY</code></pre></div>
+<p>If no directory is provided ls will list the contents of the current directory.</p>
+<ul>
+<li><p>We have been using <code>ls</code> frequently to check directory contents. However, there are many options for using <code>ls</code>. As the previous example noted we can use ls on multiple directories at the same time.</p></li>
+<li><p><code>$ ls –l /project/inbre-train/username/LearnLinux</code></p></li>
+<li><p><code>$ ls –p /project/inbre-train/username/LearnLinux</code></p></li>
+<li><p><code>$ ls –othr /project/inbre-train/username/LearnLinux</code> #Nic’s favorite!!</p></li>
+<li><p>As you can see these flags/options change the way <code>ls</code> displays the contents of the directory, giving us more or less information.</p></li>
+<li><p>Notice the changes that the <code>–p</code> or the combination of <code>–o</code>, <code>-t</code>, <code>-h</code>, and <code>–r</code> flags makes to the output.</p></li>
+</ul>
+<p><a name="rm"></a></p>
+<h3 id="removing-files-and-directories">11. Removing Files and Directories</h3>
+<p style="color: red;">
+Caution: This is a dangerous command. File/Folder deletion in Unix is permanent and nonreversible.
+</p>
+<p>If you run <code>ls</code> on your <code>LearnLinux/Work/</code> directory, it is likely full of lots of empty files and directories by this point. Wouldn't it be nice if there were a way to clean that up? Of course there is a way, however it can be dangerous. To delete directors and files from the system we have two options the <code>rm</code> (<strong>r</strong>e<strong>m</strong>ove) and <code>rm –r</code> commands.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">rm</span> FILE</code></pre></div>
+<p>One more time just to be clear. It is possible to delete EVERY file you have ever created with the <code>rm</code> command. Thankfully there is a way to make rm a bit safer, and on DT2, this is the default setting. Using the <code>–i</code> flag rm will ask for confirmation before deleting anything.</p>
+<ul>
+<li><p><code>$ cd /project/inbre-train/username/LearnLinux/Temp1</code></p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p>If you remember the <code>Temp2</code> directory is empty therefore we can use <code>rm -r</code> to delete it.</p></li>
+<li><p><code>$ rm -r Temp2/</code></p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p>We can now move up a level and remove <code>Temp1</code></p></li>
+<li><p><code>$ cd ..</code></p></li>
+<li><p><code>$ rm -r Temp1/</code></p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p>Now try <code>$ rm Temp1.1</code></p></li>
+<li><p>See the error message letting us know that we are trying to remove a directory not a file.</p></li>
+<li><p>See? Linux is warning us. So back to the recursive flag:</p></li>
+<li><p><code>$ rm –r Temp1.1</code></p></li>
+<li><p>Note the default behavior of <code>rm</code> is to simple delete with out confirmation of what you typed (except for directories of course). This is why it is so dangerous.</p></li>
+<li><p>You can have rm ask for conformation before deleting anything using the –i flag (no one does this in practice though).</p></li>
+<li><p><code>$ mkdir –p Temp1/Temp2/Temp3/Temp4</code></p></li>
+<li><p><code>$ cp –r Temp1 Temp1.1</code></p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p><code>$ rm –r Temp1</code></p></li>
+<li><p><code>$ rm –ir Temp1.1</code></p></li>
+<li><p><code>$ ls</code></p></li>
+</ul>
+<p><a name="displayfiles"></a></p>
+<h3 id="display-file-contents">12. Display File Contents</h3>
+<p>There are various commands available to display/print the contents of a file. The default of all these commands is to display the contents of the file on the terminal. These commands are <code>less</code>, <code>cat</code>, <code>head</code>, and <code>tail</code>.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">less</span> FILENAME </code></pre></div>
+<p>Displays file contents on the screen with line scrolling (to scroll you can use 'arrow' keys, 'PgUp/PgDn' keys, 'space bar' or 'Enter' key). Press 'q' to exit.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">cat</span> FILENAME</code></pre></div>
+<p>Simplest form of displaying contents. It catalogs the entire contents of the file on the screen. In case of large files, entire file will scroll on the screen without pausing.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">head</span> FILENAME</code></pre></div>
+<p>Displays only the 10 starting lines of a file by default. Any number of lines can be displayed with the <code>-n</code> flag followed by the number of lines.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">tail</span> FILENAME </code></pre></div>
+<p>As the name implies the opposite of head this displays the last 10 lines. Again <code>-n</code> option can be used to change this.</p>
+<ul>
+<li>Lets work though these commands.
+<ul>
+<li><code>$ cd /project/inbre-train/username/LearnLinux/</code></li>
+<li><code>$ less Data/Arabidopsis/At_proteins.fasta</code></li>
+</ul></li>
+<li><p>Try this: type <code>=</code>. This is a large file. You can see at the bottom, <code>less</code> displays that we are looking at lines 1-32 of 269,463 and we are 0% through the file.</p></li>
+<li><p>We can use <code>h</code> to get <strong>help</strong> commands for less.</p></li>
+<li><p>Page forward using 'space', move a line at a time with <code>j</code> (forward) or <code>k</code> (backward) or <code>N</code> lines.</p></li>
+<li><p>Hit <code>q</code> to exit the help</p></li>
+<li><p>Navigate around using the various commands</p></li>
+<li><p>Try hitting <code>j</code> <code>ENTER</code> <code>100</code> <code>ENTER</code></p></li>
+<li><p>Press <code>q</code> when ready to exit less.</p></li>
+<li><p>Navigate the file using the more command, press <code>q</code> to exit.</p></li>
+<li><p><code>$ cat</code> is the simplest form of viewing and file. Command <code>cat</code> prints all of the file to the screen from start to finish.</p></li>
+<li><p><code>$ cat Data/Arabidopsis/At_genes.gff.short</code></p></li>
+<li><p>Did you get all of that?</p></li>
+<li><p><code>$ cat</code> is most useful with combined with other commands using <code>|</code> (pipes). We will cover this later.</p></li>
+<li><p>The last two commands <code>head</code> and <code>tail</code> are fantastic when you need to look at a file and make sure things are in order.</p></li>
+<li><p><code>$ head Data/GenBank/E.coli.genbank</code></p></li>
+<li><p><code>$ head Data/GenBank/Y.pestis.genbank</code></p></li>
+<li><p>We can change how many lines we see using the <code>-n</code> flag</p></li>
+<li><p><code>$ head -n 1 Data/GenBank/E.coli.genbank Data/GenBank/Y.pestis.genbank</code></p></li>
+<li><p><code>$ tail Data/GenBank/E.coli.genbank Data/GenBank/Y.pestis.genbank</code></p></li>
+<li><p>This shows us the end of a file. This can be important when transferring files or data and needing to make sure everything transferred completely.</p></li>
+</ul>
+<p><a name="permissions"></a></p>
+<h3 id="file-folder-permissions">13. File &amp; Folder Permissions</h3>
+<p>All files in any operating system have a set of permissions associated with the file that define what can be done with the file and by whom. What = read, write (modify), and/or execute a file. Whom = user, group, or public. These permissions are denoted with the following syntax:</p>
+<p><strong>Permissions</strong><br />
+Read: <strong>r</strong><br />
+Write: <strong>w</strong><br />
+Execute: <strong>x</strong></p>
+<p><strong>Relations</strong><br />
+User: <strong>u</strong><br />
+Group: <strong>g</strong><br />
+Others: <strong>o</strong><br />
+All users: <strong>a</strong></p>
+<p><strong>Changing permissions</strong> is done via <code>chmod</code> (<strong>ch</strong>ange <strong>mod</strong>e) command</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">chmod</span> [Options] RELATIONS [+ or -] PERMISSIONS FILE</code></pre></div>
+<ul>
+<li><p>Lets make a new directory and add some files.</p></li>
+<li><p>From the <code>LearnLinux/</code> directory</p></li>
+<li><p><code>$ mkdir Allow</code></p></li>
+<li><p><code>$ cd Allow/</code></p></li>
+<li><p><code>$ touch read.txt write.txt execute.go all.txt</code></p></li>
+<li><p><code>$ ls</code></p></li>
+<li><p><code>$ ls –l</code></p></li>
+<li><p>We have created some files but we need to change the permission for these files in order to share these or execute them as programs.</p></li>
+<li><p>Since you created these files you’re the owner and have the ability to change their permissions with <code>chmod</code>.</p></li>
+<li><p>From this you can see the default is for the user to have <code>rw</code> access and the group and others to have <code>r</code> access.</p></li>
+<li><p>Lets add execute permissions for everyone on <code>execute.go</code></p>
+<ul>
+<li><code>$ chmod a+x execute.go</code></li>
+<li><code>$ ls –l</code></li>
+</ul></li>
+<li><p>We have now added the <code>x</code> option to all three levels of permission for this file</p></li>
+<li><p>If we want other members of the group to have write permission for <code>write.txt</code> we can do that as well.</p>
+<ul>
+<li><code>$ chmod a+w write.txt</code></li>
+<li><code>$ ls –l</code></li>
+</ul></li>
+<li><p>Others still cannot modify this file but now members of the group will be able to modify the contents.</p></li>
+<li>If we want a file to be completely public we need all of the flags active.
+<ul>
+<li><code>$ chmod a+rwx all.txt</code></li>
+<li><code>$ ls –l</code></li>
+</ul></li>
+<li><p>Now the file <code>all.txt</code> can be <strong>read</strong>, <strong>written</strong>, or <strong>executed</strong> by anyone on this system.</p></li>
+<li><p>We can also remove permissions using this same command.</p>
+<ul>
+<li><code>$ chmod a-rwx all.txt</code></li>
+<li><code>$ ls –l</code></li>
+</ul></li>
+<li><p>Now we have removed all access to the <code>all.txt</code> file even the owner's access.</p></li>
+<li><p>Finally we can change the permissions of all the files in a directory with the <code>-R</code> flag.</p>
+<ul>
+<li><code>$ cd ..</code></li>
+<li><code>$ chmod –R a+rwx Allow/</code></li>
+<li><code>$ ls –l Allow/</code></li>
+</ul></li>
+<li><p>This made all of these files public in one step.</p></li>
+</ul>
+<p><a name="scripting"></a></p>
+<h3 id="your-first-shell-script">14. Your First Shell Script</h3>
+<p>Just like Perl, Python, R, C++ etc. BASH (Bourne Again Shell) is a programming language that works on Unix and Unix-like computers (Linux, Macintosh, BSD etc.). All the commands that you have been passing to the terminal, are in fact being executed by <code>bash</code>, the command shell. A shell script is simply a collection of various bash commands that are executed sequentially. To make a script we simply write shell commands into a file and then treat that file like any other program or command.</p>
+<ul>
+<li><p>Open a new shell script</p>
+<ul>
+<li><code>$ cd LearnLinux/Code/</code></li>
+<li><code>$ nano hello.sh</code></li>
+</ul></li>
+<li><p>Type the following two lines in this file</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">  <span class="co"># This is my first shell script.</span>
+  <span class="bu">echo</span> <span class="st">&quot;Hello World!&quot;</span></code></pre></div>
+<ul>
+<li><p>Save the file and exit nano</p></li>
+<li><p>At the command prompt, make the file executable</p>
+<ul>
+<li><code>$ chmod u+x hello.sh</code></li>
+<li><code>$ ./hello.sh</code></li>
+</ul></li>
+</ul>
+<p><a name="powercommands"></a></p>
+<h3 id="unix-power-commands">15. Unix Power Commands</h3>
+<p>The commands that you have learned so far are essential for doing any work in Unix, but they don’t really let you do anything that is very useful. The following section will introduce new commands that will start to show you the power of Unix.</p>
+<h4 id="pipes-redirects">15.1 Pipes &amp; Redirects</h4>
+<p>Everything we have done so far has sent the result of the command to the screen. This is feasible when the data being displayed is small enough to fit the screen or if it is the endpoint of your analysis. But for large data outputs, or if you need a new file, printing to the screen isn't very useful. Unix has built in methods to hand output from commands using &gt; (greater than) or &lt; (lesser than) or &gt;&gt; signs.</p>
+<ul>
+<li><p><strong>&lt;</strong> redirects the data to the command for processing</p></li>
+<li><p><strong>&gt;</strong> redirects the data from the command’s output to a file. The file will be created if it is non-existing and if present it will overwrite the contents with the new output data (you will lose the original file).</p></li>
+<li><p><strong>&gt;&gt;</strong> unlike <strong>&gt;</strong> this redirection lets user append the data to an already existing file or a new file</p></li>
+<li><p>Another special operator <strong>|</strong> (called pipe) is used to pass the output from a command to another command (as input) before sending it to an output file or display.</p></li>
+<li><p>Some examples:</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="co"># Creates a new file (file2) with same contents as old file (file1) </span>
+    $ <span class="fu">cat</span> FILE1 <span class="op">&gt;</span> FILE2 
+
+    
+    <span class="co"># Appends the contents for file1 to file2, equivalent to opening file1, </span>
+    <span class="co"># copying all the contents, pasting the copied contents to the end of </span>
+    <span class="co"># the file2 and saving it! </span>
+    $ <span class="fu">cat</span> FILE1 <span class="op">&gt;&gt;</span> FILE2 
+
+    $ <span class="fu">cat</span> FILE1 <span class="kw">|</span> <span class="fu">less</span> </code></pre></div>
+<p>Here, cat command displays the contents of the file1, but instead of sending it to standard output (screen) it sends it through the pipe to the next command less so that contents of the file are now displayed on the screen with line scrolling.</p>
+<p><strong>From the <code>LearnLinux/Data/</code> directory</strong></p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">cat</span> seq.fasta
+
+    $ <span class="fu">head</span> seq.fasta <span class="op">&gt;</span> new.txt
+
+    $ <span class="fu">cat</span> new.txt
+
+    $ <span class="fu">tail</span> seq.fasta <span class="op">&gt;</span> new.txt
+
+    $ <span class="fu">cat</span> new.txt</code></pre></div>
+<p><strong>Now lets try that with the append option.</strong></p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">head</span> –n 1 seq.fasta <span class="op">&gt;</span> new.txt
+
+    $ <span class="fu">tail</span> –n 1 seq.fasta <span class="op">&gt;&gt;</span> new.txt</code></pre></div>
+<h4 id="grep-search">15.2 Grep Search</h4>
+<p>The <strong>grep</strong> (<strong>g</strong>lobally search a <strong>r</strong>egular <strong>e</strong>xpression and <strong>p</strong>rint) is one of the most useful commands in Unix and it is commonly used to filter a file/input, line by line, against a pattern.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">grep</span> [OPTIONS] PATTERN FILENAME </code></pre></div>
+<p>Like any other command there are various options available man grep for this command. Most useful options include:</p>
+<ul>
+<li><strong>-v</strong> inverts the match or finds lines NOT containing the pattern.</li>
+<li><strong>--color</strong> colors the matched text for easy visualization</li>
+<li><strong>-i</strong> ignore case for the pattern matching.</li>
+<li><strong>-l</strong> lists the file names containing the pattern</li>
+<li><strong>-n</strong> prints the line number containing the pattern</li>
+<li><strong>-c</strong> counts the number of matches for a pattern</li>
+</ul>
+<p><strong>Some typical scenarios to use grep</strong></p>
+<ul>
+<li><p>Counting number of sequences in a multi-fasta sequence file</p></li>
+<li><p>Get the header lines of fasta sequence file</p></li>
+<li><p>Find a matching motif in a sequence file</p></li>
+<li><p>Find restriction sites in sequence(s)</p></li>
+<li><p>Get all the Gene IDs from a multi-fasta sequence files and many more.</p></li>
+</ul>
+<p>You might already know that fasta files header must start with a <strong>&gt;</strong> character, followed by a DNA or protein sequence on subsequent lines. To find only those header lines in a fasta file, we can use grep.</p>
+<ul>
+<li><p>Move to <code>LearnLinux/Data/Arabidopsis</code></p>
+<ul>
+<li><code>$ grep &quot;&gt;&quot; intron_IME_data.fasta</code></li>
+</ul></li>
+<li><p>Did you get that?</p></li>
+<li><p>Remember the default for a program is to output to the screen.</p></li>
+<li><p>We can fix this with a redirect or a pipe.</p>
+<ul>
+<li><code>$ grep &quot;&gt;&quot; intron_IME_data.fasta | less</code></li>
+</ul></li>
+<li><p>This takes the output from grep and sends it as input to less</p></li>
+<li><p>What if we want to know how many sequences are in a file?</p>
+<ul>
+<li><code>$ grep –c &quot;&gt;&quot; intron_IME_data.fasta</code></li>
+</ul></li>
+<li><p>We can also get lines that don't match our string.</p>
+<ul>
+<li><code>$ grep –v &quot;&gt;&quot; intron_IME_data.fasta | less</code></li>
+</ul></li>
+<li><p>Given a the fasta file structure we can use grep to separate this information</p>
+<ul>
+<li><p><code>$ grep &quot;&gt;&quot; intron_IME_data.fasta &gt; intron_headers.txt</code></p></li>
+<li><p><code>$ grep –v &quot;&gt;&quot; intron_IME_data.fasta &gt; intron_sequences.txt</code></p></li>
+</ul></li>
+<li><p>We can even get some biological information from grep</p>
+<ul>
+<li><code>$ grep –-color &quot;GAATTC&quot; chr1.fasta</code></li>
+</ul></li>
+<li><p>GAATTC is the EcoR1 cut site. The <code>--color</code> option highlights the matches in this sequence.</p></li>
+</ul>
+<h4 id="regular-expressions">15.3 Regular Expressions</h4>
+<p><strong>grep</strong> + regular expressions (also called <strong>regex</strong>) = power! Before we get into this let's start with a task.</p>
+<p><strong>TASK</strong></p>
+<p>The '.' and '*' characters are also special characters that form part of the regular expression. Try to understand how the following patterns all differ. Try using each of these patterns with <code>grep -c</code> against any one of the sequence files. Can you predict which of the five patterns will generate the most matches?</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="ex">ACGT</span> 
+    <span class="ex">AC.GT</span> 
+    <span class="ex">AC*GT</span> 
+    <span class="ex">AC.*GT</span> </code></pre></div>
+<p>The asterisk in a regular expression is similar to, but NOT the same, as the other asterisks that we have seen so far. An asterisk in a regular expression means: <strong>match zero or more of the preceding character or pattern</strong> Try searching for the following patterns to ensure you understand what '.' and '*' are doing:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="ex">A...T</span> 
+    <span class="ex">AG*T</span> 
+    <span class="ex">A*C*G*T*</span></code></pre></div>
+<p>When working with the sequences (protein or DNA) we are often interested to see if a particular feature is present or not. This could be various things like a start codon, restriction site, or even a motif. In Unix all strings of text that follow some pattern can be searched using some formula called regular expressions. e.g. As you learned above regular expressions consist of normal and meta characters. Commonly used characters include:</p>
+<hr>
+<table style="width:92%;">
+<colgroup>
+<col width="16%" />
+<col width="75%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Expression</th>
+<th align="left">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>.</code></td>
+<td align="left">matches any single character</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>$</code></td>
+<td align="left">matches the end of a line</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>^</code></td>
+<td align="left">matches the beginning of a line</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>*</code></td>
+<td align="left">matches one or more character</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>\</code></td>
+<td align="left">quoting character, treat the next character followed by this as an ordinary character.</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>[]</code></td>
+<td align="left">matches one or more characters between the brackets</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>[range]</code></td>
+<td align="left">match any character in the range</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>[^range]</code></td>
+<td align="left">match any character except those in the range</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>\{N\}</code></td>
+<td align="left">match N occurrences of the character preceding (sometimes simply +N) where N is a number.</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>\{N1,N2\}</code></td>
+<td align="left">match at least N1 occurrences of the character preceding but not more than N1</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>?</code></td>
+<td align="left">match 1 occurrence of the character preceding</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>|</code></td>
+<td align="left">match 2 conditions together, (this|that) matches both this or that in the text</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><Br><br> Here are some common <strong>regex</strong> patterns for Nucleotide/Protein searches:</p>
+<hr>
+<table>
+<colgroup>
+<col width="42%" />
+<col width="57%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Patterns</th>
+<th align="left">Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>^ATG</code></td>
+<td align="left">Find a pattern starting with ATG</td>
+</tr>
+<tr class="even">
+<td align="left"><code>TAG$</code></td>
+<td align="left">Find a pattern ending with TAG</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>^A[TGC]G</code></td>
+<td align="left">Find patterns matching either ATG, AGG or ACG</td>
+</tr>
+<tr class="even">
+<td align="left"><code>TA[GA]$</code></td>
+<td align="left">Find patterns matching either TAG or TAA</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>^A[TGC]G*TGTGAACT*TA[GA]$</code></td>
+<td align="left">Find gene containing a specific motif</td>
+</tr>
+<tr class="even">
+<td align="left"><code>[YXN][MPR]\_[0-9]\{4,9\}</code></td>
+<td align="left">Find patterns matching NCBI RefSeq (e.g. XM_012345)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>\(NP\|XP\)\_[0-9]\{4,9\}</code></td>
+<td align="left">Find patterns matching NCBI RefSeq proteins</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Let's use grep to find a zinc finger motif. For simplicity let’s assume zinc finger motif to be <strong>C</strong>XX<strong>C</strong>XXXXXXXXXXXX<strong>H</strong>XXX<strong>H</strong>. Either you can use dots to represent any amino acids or use complex regular expressions to come up with a more representative pattern.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">grep</span> --color <span class="st">&quot;C..C............H...H&quot;</span> At_proteins.fasta </code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">grep</span> --color <span class="st">&quot;C.\{2\}C.\{12\}H.\{3\}H&quot;</span> At_proteins.fasta</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">grep</span> --color <span class="st">&quot;C[A-Z][A-Z]C[A-Z]\{12\}H[A-Z][A-Z][A-Z]H&quot;</span> At_proteins.fasta</code></pre></div>
+<p>These all do the exact same thing. As you can see, regular expressions can be very useful for finding patters of all kinds.</p>
+<p><strong>UNIX Tip</strong>: You can use regular expressions in grep, sed, awk, less, perl, python, certain text editors almost any programing language or tool can utilize the power of regex.</p>
+<p><br><br></p>
+<h3 id="sed-stream-editor">15.4 SED Stream Editor</h3>
+<p>sed is a stream editor that reads one or more text files and makes changes or edits then writes the results to standard output. The simple syntax for sed is:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">sed</span> <span class="st">&#39;OPERATION/REGEXP/REPLACEMENT/FLAGS&#39;</span> FILENAME</code></pre></div>
+<p>Above, <code>/</code> is the delimiter but you can use <code>_</code> <code>|</code> or <code>:</code> as well.</p>
+<p><code>OPERATION</code> = the action to be performed, the most common being <code>s</code> which is for substitution.</p>
+<p><code>REGEXP</code> and <code>REPLACEMENT</code> = the search term and the substitution for the operation be executed.</p>
+<p><code>FLAGS</code> = additional parameters that control the operation.</p>
+<p>Common FLAGS include:</p>
+<p><strong>g</strong>   replace all the instances of REGEXP with REPLACEMENT (globally)<br />
+<strong>n</strong>   (n=any number) replace nth instance of the REGEXP with REPLACEMENT<br />
+<strong>p</strong>   If substitution was made, then prints the new pattern space<br />
+<strong>i</strong>   ignores case for matching REGEXP<br />
+<strong>w</strong>   If substitution was made, write out the result to the given file<br />
+<strong>d</strong>   when specified without REPLACEMENT, deletes the found REGEXP</p>
+<ul>
+<li><p>From LearnLinux/Data/Arabidopsis</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">head</span> –n 1 chr1.fasta
+$ <span class="fu">sed</span> <span class="st">&quot;s/Chr1/Chromosome_1/g&quot;</span> chr1.fasta <span class="kw">|</span> <span class="fu">head</span> –n 1
+$ <span class="fu">sed</span> <span class="st">&quot;s:Chr1:Chromosome_1:g&quot;</span> chr1.fasta <span class="kw">|</span> <span class="fu">head</span> –n 1</code></pre></div></li>
+</ul>
+<p>As you can see these two commands do the same thing with different delimiters. We Changed &quot;Chr1&quot; to &quot;Chromosome_1&quot; in the file. However this was not done permanently. To do that we would have to write to a new file or use a flag within sed.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">touch</span> greetings.txt
+    $ <span class="bu">echo</span> <span class="st">&quot;Hello there&quot;</span> <span class="op">&gt;&gt;</span> greetings.txt
+    $ <span class="fu">head</span> greetings.txt</code></pre></div>
+<p>Now we have our file to manipulate with sed. We have three options for altering and saving the file:</p>
+<p><strong>Option 1:</strong> Make a new file</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">sed</span> <span class="st">&#39;s/Hello/Hi/g&#39;</span> greetings.txt <span class="op">&gt;</span> greetings_short.txt
+    $ <span class="fu">head</span> greetings*</code></pre></div>
+<p><strong>Option 2:</strong> Edit in place but make a backup of the original with the given extension</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">sed</span> –i.bak <span class="st">&#39;s/Hello/Hi/g&#39;</span> greetings.txt
+    $ <span class="fu">head</span> greetings*</code></pre></div>
+<p><strong>Option 3:</strong> Edit in place but without a backup. NOTE if you run out of system memory or have an error this will rewrite the original file. You will not get that file back.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">sed</span> –i <span class="st">&#39;s/Hello/Hi/g&#39;</span> greetings.txt.bak
+    $ <span class="fu">head</span> greetings*</code></pre></div>
+<p><br></p>
+<h3 id="word-count">15.5 Word Count</h3>
+<p><code>wc</code> (<strong>w</strong>ord <strong>c</strong>ount) is a useful command in bioinformatics because it can quickly identify how many lines or words are in a file.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">wc</span> FILENAME</code></pre></div>
+<ul>
+<li><p>From <code>Data/Arabidopsis</code></p></li>
+<li><p><code>$ wc At_genes.gff</code></p></li>
+<li><p>Here we have the total number of lines, words, and bytes in this file</p></li>
+<li><p><code>$ wc -l At_genes.gff</code></p></li>
+<li><p>This prints out just the line count for the input file.</p></li>
+<li><p><code>$ wc</code> is best used in with pipes but it can be useful to count things as well</p></li>
+<li><p><code>$ ls /project/inbre-train/UserName/LearnLinux/Data/Sequences | grep &quot;.fa&quot; | wc –l</code></p></li>
+<li><p>This command tells you how many <code>.fa</code> files there are in the Sequences directory.</p></li>
+</ul>
+<p><br></p>
+<h3 id="sorting-files">15.6 Sorting Files</h3>
+<p><code>sort</code> command can be used to arrange things in a file. Simplest way to use this command is:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">sort</span> FILE1 <span class="op">&gt;</span> SORTED_FILE1</code></pre></div>
+<p><code>sort</code> has these commonly used flags:</p>
+<ul>
+<li><p><strong>-n</strong>   numerical sort</p></li>
+<li><p><strong>-r</strong>   reverse sort</p></li>
+<li><p><strong>-k N,N</strong>   sort the Nth field (column), where N is a number. Sorting can also be done on the exact character on a particular field e.g. –k 4.3,4.4 sorts based on 3rd and 4th character of the 4th field. Additionally you can supply additional –k for resolving ties.</p></li>
+<li><p><strong>-t</strong>   specify the delimiters to be used to identify fields (default is TAB) -t ‘:‘ to use ‘:’ as delimiter</p></li>
+</ul>
+<p><strong>TASK</strong></p>
+<p>The <code>LearnLinux/Data/Sequences</code> directory consists of numerically labeled files. Unix can sort either alphabetically or numerically (not both) and hence they are arranged in <code>Seq1.fa</code>, <code>Seq10.fa</code>, <code>Seq11.fa</code> etc. In order to sort them in an easy to read way, try using:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">ls</span> <span class="kw">|</span><span class="fu">sort</span> –t <span class="st">&#39;q&#39;</span> -k 2n</code></pre></div>
+<p>This command lists all the files in <code>Sequences/</code> directory and then passes it to sort command. Sort command then sorts it numerically but only using 3rd and 4th letters of the first field (file name)</p>
+<p>Try using sort on <code>Data/Arabidopsis/At_genes.gff</code></p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">sort</span> -r -k 1 At_genes.gff 
+    $ <span class="fu">sort</span> -r -k 4 At_genes.gff</code></pre></div>
+<p><br></p>
+<h3 id="uniq">15.7 Uniq</h3>
+<p><code>uniq</code> (unique) command removes duplicate lines from a sorted file, retaining only one instance of the running matching lines. Optionally, it can show only lines that appear exactly once, or lines that appear more than once. uniq requires sorted input since it compares only consecutive lines.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">uniq</span> [OPTIONS] INFILE OUTFILE</code></pre></div>
+<p>Useful options include:</p>
+<ul>
+<li><p><strong>-c</strong> count; prints lines by the number of occurrences</p></li>
+<li><p><strong>-d</strong> only print duplicate lines</p></li>
+<li><p><strong>-u</strong> only print unique lines</p></li>
+<li><p><strong>-i</strong> ignore differences in case when comparing</p></li>
+<li><p><strong>-s N</strong> skip comparing the first N characters (N=number)</p></li>
+</ul>
+<p><strong>TASK</strong></p>
+<p>From <code>Data/</code></p>
+<ul>
+<li><p><code>$ cat uniq.txt</code></p></li>
+<li>Using the above options do the following:
+<ul>
+<li>Count the occurrence of each unique line</li>
+<li>Print only duplicated lines.</li>
+<li>Print only unique lines.</li>
+</ul></li>
+</ul>
+<p><br> ### 15.8 Dividing files by Columns ###</p>
+<p><code>cut</code> extracts entire columns of data from files. By default, it assumes that columns are <code>tab</code> delimited, but this is not always the case. If your data file contains columns (called 'fields' here) that are separated by other delimiters e.g. <code>space</code> or <code>comma</code>, then you will need to tell <code>cut</code> about it.</p>
+<p>The following example assumes that the fields are separated by tabs. This will print the first column from the input file to the screen.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">cut</span> –f1 FILE      </code></pre></div>
+<p>Here is an example of a <code>.csv</code> file (comma separated values). The following command will display columns 2 through 4 from this file.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">cut</span> –d <span class="st">&#39;,&#39;</span> –f2-4 FILE  </code></pre></div>
+<p>Another example where the delimiter is a pipe (<code>|</code>) and the command will display 1st and 9th column.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="fu">cut</span> –d <span class="st">&#39;|&#39;</span> –f1,9 FILE</code></pre></div>
+<p><strong>TASK</strong></p>
+<ul>
+<li><p>Display only first column of the <code>At_genes.gff</code> file using cut</p></li>
+<li><p>Now can you display that in a way so you can actually see what the output looks like?</p></li>
+<li><p>What if you want column 1, 4, and 5?</p></li>
+</ul>
+<p><br><br> <a name="savework"> </a></p>
+<h3 id="saving-your-work">16. Saving Your Work</h3>
+<p><strong>i. On Mt.Moran Remote Server</strong></p>
+<ul>
+<li><p>Make sure you are in <code>/project/inbre-train/username/week1</code></p></li>
+<li><p>After you are finished with all exercises, use the <code>history</code> command to direct all your activity to a text file as follows:</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    $ <span class="bu">history</span> <span class="op">&gt;</span> netid_week1_history.sh</code></pre></div>
+<p><strong>ii. Homework</strong></p>
+<ul>
+<li><strong>(a) On a Mac</strong>
+<ul>
+<li>Simply direct the history as above to a text file which will sit on your workstation.</li>
+<li><code>$ mkdir -p /Users/username/molb4485/LastName_week1</code></li>
+<li><code>$ history &gt; /project/inbre-train/username/week1/netid_week1_history.sh</code></li>
+</ul></li>
+<li><strong>(b) On Virtualbox</strong>
+<ul>
+<li>This assumes you did your homework using virtualbox terminal on your personal computer.</li>
+<li>Save history as follows:</li>
+<li><code>$ mkdir -p /home/username/molb4485/week1</code></li>
+<li><code>$ history &gt; ~/molb4485/week1/netid_week1_history.sh</code></li>
+</ul></li>
+<li><strong>(a &amp; b) Email the file </strong>
+<ul>
+<li>Send an email to <a href="mailto:wyinbre@gmail.com">wyinbre@gmail.com</a> and attach your history file.</li>
+</ul></li>
+</ul>
+</body>
+</html>

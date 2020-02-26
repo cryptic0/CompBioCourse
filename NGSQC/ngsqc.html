@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #ffffff; color: #1f1c1b; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #ffffff; color: #a0a0a0; border-right: 1px solid #a0a0a0; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #1f1c1b; background-color: #ffffff; }
+code > span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code > span.dt { color: #0057ae; } /* DataType */
+code > span.dv { color: #b08000; } /* DecVal */
+code > span.bn { color: #b08000; } /* BaseN */
+code > span.fl { color: #b08000; } /* Float */
+code > span.cn { color: #aa5500; } /* Constant */
+code > span.ch { color: #924c9d; } /* Char */
+code > span.sc { color: #3daee9; } /* SpecialChar */
+code > span.st { color: #bf0303; } /* String */
+code > span.vs { color: #bf0303; } /* VerbatimString */
+code > span.ss { color: #ff5500; } /* SpecialString */
+code > span.im { color: #ff5500; } /* Import */
+code > span.co { color: #898887; } /* Comment */
+code > span.do { color: #607880; } /* Documentation */
+code > span.an { color: #ca60ca; } /* Annotation */
+code > span.cv { color: #0095ff; } /* CommentVar */
+code > span.ot { color: #006e28; } /* Other */
+code > span.fu { color: #644a9b; } /* Function */
+code > span.va { color: #0057ae; } /* Variable */
+code > span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #1f1c1b; } /* Operator */
+code > span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code > span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code > span.pp { color: #006e28; } /* Preprocessor */
+code > span.at { color: #0057ae; } /* Attribute */
+code > span.re { color: #0057ae; } /* RegionMarker */
+code > span.in { color: #b08000; } /* Information */
+code > span.wa { color: #bf0303; } /* Warning */
+code > span.al { color: #bf0303; font-weight: bold; } /* Alert */
+code > span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code > span. { color: #1f1c1b; } /* Normal */
+  </style>
+  <link rel="stylesheet" href="avenir-white.css" type="text/css" />
+</head>
+<body>
+<h1 id="week-4-nextgen-sequence-quality-control">Week 4: Nextgen Sequence Quality Control</h1>
+<h2 id="molb-44855485----computers-in-biology">Molb 4485/5485 -- Computers in Biology</h2>
+
+<br><br><br>
+<h2 id="login-to-the-teton-environment">1. Login to the Teton Environment</h2>
+<ul>
+<li>Log onto Teton using your account, password, and Yubikey token as we did for the last 3 weeks:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">ssh</span> <span class="op">&lt;</span>YourNetID<span class="op">&gt;</span>@teton.uwyo.edu</code></pre></div>
+<ul>
+<li><p>remember ALL PASSWORDS are <strong>wyoinbre,YUBIKEY-TOKEN</strong></p></li>
+<li><p>Let's all move over to the working directory we have used for the past 3 weeks:</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">cd</span> /project/inbre-train/<span class="op">&lt;</span>yourNetID<span class="op">&gt;</span>/ 
+
+<span class="bu">pwd</span></code></pre></div>
+<ul>
+<li><p>You should see <code>/project/inbre-train/&lt;YourNetID&gt;</code>, <em>e.g.</em>, <code>inbre001</code>.</p></li>
+<li><p>Just like last week, the materials you will need are in the directory for this week (week 4):</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">ls</span> -l /project/inbre-train/
+
+<span class="ex">drwxrwsr-x</span> 6 inbre001 inbre-train 4096 Oct 23 14:05 inbre001
+<span class="ex">drwxrwsr-x</span> 5 inbre002 inbre-train 4096 Oct 23 14:04 inbre002
+<span class="ex">drwxrwsr-x</span> 6 inbre003 inbre-train 4096 Oct 23 14:03 inbre003
+<span class="ex">...</span>
+<span class="ex">...</span>
+<span class="ex">...</span>
+<span class="ex">drwxr-sr-x</span> 3 nblouin  inbre-train 4096 Oct 23 14:03 nblouin
+<span class="ex">drwxr-sr-x</span> 7 vchhatre inbre-train 4096 Oct 26 10:30 vchhatre
+<span class="ex">drwxrwsrwx</span> 2 nblouin  inbre-train 4096 Oct 15 14:23 Week2Data
+<span class="ex">drwxrwsrwx</span> 2 nblouin  inbre-train 4096 Oct 23 16:19 Week3Data
+<span class="ex">drwxrwsrwx</span> 3 nblouin  inbre-train 4096 Oct 29 13:21 Week4
+</code></pre></div>
+<ul>
+<li>Now we need a directory where we will do all of our work for this week.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">mkdir</span> <span class="op">&lt;</span>your_last_name<span class="op">&gt;</span>_Week4   ## Example: Blouin_Week4</code></pre></div>
+<ul>
+<li>Move into that directory you just made (<code>cd</code>):</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">cd</span> Blouin_Week3</code></pre></div>
+<ul>
+<li>Copy (<strong>cp</strong>) the paired-end DNA read files into your working directory from <code>/project/inbre-train/Week4</code>. These data are from the <a href="http://www.internationalgenome.org">1000 Genomes Project</a>. Part of the data you will prepare this week will be used to investigate genetic variation between different human populations in the context of their geographic position (last class meeting).</li>
+</ul>
+<h2 id="quality-control">2. Quality Control</h2>
+<p>The first thing many people want to know is: Are my sequences garbage?</p>
+<p>Lots can happen after you send in your precious sample for sequencing. Accidents happen all the time.</p>
+<p>While some informatics programs can take raw reads (untrimmed data) as input, it is good practice to do this yourself before running any analysis.</p>
+<p>These will serve as a basic guideline for read prep. This assumes you have demultiplexed Illumina data. If you ever run across a multiplexed dataset, write us and we will help you with that more advanced task.</p>
+<h3 id="fastqc-sequence-quality-assessment">2.1 FastQC Sequence Quality Assessment</h3>
+<p>Today you will see FastQC runs easily on the command line. There is also a GUI version of this program, but it has its limits. When you have LARGE datasets that are difficult to move, you will quickly come to love FastQC on the command line so you can assess your datasets on a computer cluster (<em>e.g.</em>, Teton).</p>
+<p>When doing quality control (QC) you must evaluate each paired read file separately. Do not assume that each read file is OK if you only checked one of two files. In most cases the reverse reads (read 2 files) will be of poorer quality than the matching forward reads.</p>
+<ol style="list-style-type: decimal">
+<li>Now that you have copied (cp) the paired reads files for <code>ERR</code> in the Week4Data directory to your current working directory here are the files:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">ls</span> –othr /project/inbre-train/Week4/
+
+<span class="ex">-rwxrwxrwx</span> 1 nblouin 1.9G Oct 29 12:48 ERR013161_2.filt.fastq.gz
+<span class="ex">-rwxrwxrwx</span> 1 nblouin 1.9G Oct 29 12:48 ERR013161_1.filt.fastq.gz
+</code></pre></div>
+<p>These file are compressed (<code>*gz</code>). Some programs require you to unpack them. Lucky for us that the modules (programs) we are using today will do that in the background for us.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Run FastQC. You can get help by running the following command</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">module</span> load gcc swset fastqc
+</code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Take a quick peek at the usage for FastQC (<code>-h</code>)</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">fastqc</span> -h</code></pre></div>
+<p>Like last week, we will send a job to the Teton computing environment. To do this for QC assessment of our sequences we will submit the following script. Make a shell a script called <code>FastQC_Before.sh using the text editor (</code>vi<code>). What does the</code>–t 4`` command do in the shell below?</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+<span class="co">#SBATCH -J FQC_Pre</span>
+<span class="co">#SBATCH -n 1</span>
+<span class="co">#SBATCH -t 30:00</span>
+<span class="co">#SBATCH --cpus-per-task=4</span>
+<span class="co">#SBATCH --mail-type=ALL</span>
+<span class="co">#SBATCH --mail-user=&lt;your email address&gt;</span>
+<span class="co">#SBATCH --account=inbre-train</span>
+
+<span class="bu">echo</span> <span class="st">&quot;Loading Modules&quot;</span>
+
+<span class="ex">module</span> load  swset gcc 
+<span class="ex">module</span> load fastqc
+
+<span class="bu">echo</span> <span class="st">&quot;Following modules have been loaded&quot;</span>
+<span class="ex">module</span> list
+
+<span class="bu">echo</span> <span class="st">&quot;Initiating FastQC Run at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span>
+
+<span class="ex">fastqc</span> –t 4 ERR013161_1.filt.fastq.gz ERR013161_2.filt.fastq.gz
+
+
+<span class="bu">echo</span> <span class="st">&quot;Finished FastQC Run at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span>
+</code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Each read set will create two output files <code>&lt;read_name&gt;.fastqc.html</code> and <code>&lt;read_name&gt;.fastqc.zip</code>. Take a look</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">ls</span> -othr </code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Now you need to download the html files and look at them using a web browser. Remember in Week2 and we used the secure copy command (scp) to download files to you workstations? Remember we do not type &quot;&lt;&quot; and &quot;&gt;&quot;. The syntax for secure copy is:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">scp</span> <span class="op">&lt;</span>user@server<span class="op">&gt;</span>:<span class="op">&lt;</span>PathToWhatIWantToCopy<span class="op">&gt;</span> <span class="op">&lt;</span>WhereIWantToCopy<span class="op">&gt;</span>
+</code></pre></div>
+<p>To do this open a new terminal window (this is a local window NOT connected to Teton) and copy the html files like this all in one line, start by getting your working directory for the path to the files:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">pwd</span>
+
+<span class="co"># This gives us the path we will need for the command below, mine looks like this</span>
+<span class="co"># /project/inbre-train/nblouin/Blouin_Week4</span>
+
+<span class="fu">scp</span> <span class="op">&lt;</span>YourUserName<span class="op">&gt;</span>@teton.uwyo.edu:/project/inbre-train/<span class="op">&lt;</span>YourUserName<span class="op">&gt;</span>/<span class="op">&lt;</span>YourLastName<span class="op">&gt;</span>_Week4/*.html ~/Desktop/
+</code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li>Open The HTML files on your desktop and let's look at the datasets.</li>
+</ol>
+<p>Based upon this output you can make decisions about the read quality and what needs to be trimmed. Typically each dataset will have it's own parameters, but each pair will share parameters.</p>
+<h3 id="sequence-quality-control-with-trimmomatic">2.2 Sequence Quality Control with Trimmomatic</h3>
+<p>There are a lot of trimming tools. The one we will use today is called Trimmomatic. <a href="http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.30.pdf">You can see its user manual by clicking on this link</a>.</p>
+<p>We need to decide how we want to trim. Note Trimmomatic trims in the order the commands are given.</p>
+<p>In the case of the ERR reads from the 1000 Genomes (Human) project, we will want to trim the first 15 bps from the 5’-end (beginning of the sequence) as well as low quality reads. Then we will remove any remaining short sequences.</p>
+<p><strong>Note:</strong> Trimmomatic will remove duplicates as well. Normally, for genome assembly this is something that we would do. However in the interest of time we will skip this step. Please review the Trimmomatic manual for all of the settings and suggestions.</p>
+<p>Now we can build our job command. Below you will see a new symbol (<code>\</code>) that allows us to use line breaks. Whenever the computer sees this symbol <code>\</code>, it knows you are finishing your command on the following line. After each <code>\</code> hit the enter key and keep typing. Let's make a batch script (also called a shell or shell script) using your text editor (<code>vim</code>). Call this shell script <code>Trim.sh</code></p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+<span class="co">#SBATCH -J Trim</span>
+<span class="co">#SBATCH -n 1</span>
+<span class="co">#SBATCH --cpus-per-task=4</span>
+<span class="co">#SBATCH -t 30:00</span>
+<span class="co">#SBATCH --mail-type=ALL</span>
+<span class="co">#SBATCH --mail-user=&lt;your email address&gt;</span>
+<span class="co">#SBATCH --account=inbre-train</span>
+
+<span class="bu">echo</span> <span class="st">&quot;Loading required modules&quot;</span>
+
+<span class="ex">module</span> load swset gcc trimmomatic
+
+<span class="bu">echo</span> <span class="st">&quot;Following modules have been loaded:&quot;</span>
+<span class="ex">module</span> list
+
+<span class="bu">echo</span> <span class="st">&quot;Initiating Trimmomatic Run at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span>
+
+<span class="ex">trimmomatic</span> PE \
+    -threads 4 \
+    ERR013161_1.filt.fastq.gz ERR013161_2.filt.fastq.gz \
+    ./fwd_pair.fq ./fwd_unpair.fq ./rev_pair.fq ./rev_unpair.fq \
+    HEADCROP:10 \
+    SLIDINGWINDOW:4:24 \
+    MINLEN:80
+
+<span class="bu">echo</span> <span class="st">&quot;Completed Trimmomatic Run at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span>
+</code></pre></div>
+<h3 id="task-compare-trimmed-reads-to-raw-un-trimmed-reads">2.3 Task: Compare Trimmed Reads to Raw, Un-Trimmed Reads</h3>
+<ol style="list-style-type: decimal">
+<li><p>Run FastQC on the trimmed paired-end reads (only the two &quot;pair&quot; files i.e. <code>fwd_pair</code> and <code>rev_pair</code>). You may ignore the <code>unpair</code> files.</p></li>
+<li><p>Download the html files (<code>scp</code>) and look at them. What are at least 3 things that have changed? <strong>We encourage you to chat with your neighbors.</strong></p></li>
+<li><p>Look in your <code>slurm.out</code> file to see how many reads were removed in your trim. What are some different choices, if any, you might make if this were your data? You might need to look at the <a href="http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.30.pdf"><strong>User Manual for Trimmomatic</strong></a> for ideas.</p></li>
+</ol>
+<p><br><br><br><br></p>
+</body>
+</html>
